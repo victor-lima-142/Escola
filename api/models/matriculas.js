@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Matriculas.init({
     status: DataTypes.STRING
-  }, {
+  },
+  {
     sequelize,
+    paranoid: true,
     modelName: 'Matriculas',
   });
   return Matriculas;
