@@ -1,27 +1,18 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
 module.exports = (sequelize, DataTypes) => {
-  class Turmas extends Model {
-    static associate(models) {
-      Turmas.belongsTo(models.Pessoas, {
-        foreignKey: 'docente_id'
-      });
-      Turmas.belongsTo(models.Niveis, {
-        foreignKey: 'nivel_id'
-      });
-      Turmas.hasMany(models.Matriculas, {
-        foreignKey: 'turma_id'
-      });
-    }
-  }
-  Turmas.init({
+  const Turmas = sequelize.define('Turmas', {
     data_inicio: DataTypes.DATEONLY
-  }, {
-    sequelize,
-    paranoid: true,
-    modelName: 'Turmas',
-  });
-  return Turmas;
-};
+  }, { paranoid: true })
+  Turmas.associate = function(models) {
+    Turmas.hasMany(models.Matriculas, {
+      foreignKey: 'turma_id'
+    })
+    Turmas.belongsTo(models.Pessoas, {
+      foreignKey: 'docente_id'
+    })
+    Turmas.belongsTo(models.Niveis, {
+      foreignKey: 'nivel_id'
+    })
+  }
+  return Turmas
+}
